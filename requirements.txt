@@ -1,0 +1,3 @@
+git+git://github.com/dipstef/funlib.git
+git+git://github.com/dipstef/catches.git
+git+git://github.com/dipstef/htpy.git
