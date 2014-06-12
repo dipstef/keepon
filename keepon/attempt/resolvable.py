@@ -1,7 +1,7 @@
 from funlib.retry.sleep import sleep
 
-from .attempts import on_no_connection, on_unresolvable_host
-from .requests import RetryRequests
+from . import on_no_connection, on_unresolvable_host
+from ..requests import RetryRequests
 
 
 _attempts = (
