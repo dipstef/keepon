@@ -1,4 +1,6 @@
+from httpy_client import HttpClient
 from .attempt.up_and_running import up_and_running
 from .requests import RetryRequests
 
-client = RetryRequests(up_and_running)
+requests = RetryRequests(up_and_running)
+client = HttpClient(requests)

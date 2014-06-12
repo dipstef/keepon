@@ -1,14 +1,16 @@
 from funlib.retry.sleep import sleep
 from httpy.response import ResponseStatus
-from httpy_client import http_client
 from httpy_client.requests import HttpRequestDispatch
+
 from funlib.retry import RetryOnErrors
+from httpy_client.urrlib import requests
+
 from .attempt import on_incomplete_read, join
 
 
 class RetryRequests(HttpRequestDispatch):
-    def __init__(self, attempts):
-        super(RetryRequests, self).__init__(http_client)
+    def __init__(self, attempts, client=requests):
+        super(RetryRequests, self).__init__(client)
 
         self._attempts = attempts
         self._retry_execute = RetryOnErrors(super(RetryRequests, self)._execute, attempts)
@@ -27,9 +29,8 @@ class ResponseReplay(ResponseStatus):
         self._replay = redo_request
         self._response = response
 
-    @property
-    def body(self):
-        return self._response.body
+    def read(self):
+        return self._read()
 
     def replay(self):
         response = self._replay(self.request)
@@ -44,16 +45,14 @@ class ResponseReadRetry(ResponseReplay):
     def __init__(self, response, redo_request, attempts):
         super(ResponseReadRetry, self).__init__(response, redo_request)
         self._response = response
-        self._get_body = RetryOnErrors(self._read_body, join(attempts, on_incomplete_read(sleep(2))))
+        self._read = RetryOnErrors(self._read_body, join(attempts, on_incomplete_read(sleep(2))))
 
-
-    @property
-    def body(self):
-        return self._get_body()
+    def read(self):
+        return self._read()
 
     def _read_body(self):
         try:
-            return self._response.body
+            return self._response.read()
         except:
             self._response = self._response.replay()
             raise
