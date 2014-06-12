@@ -3,7 +3,7 @@ from httpy.response import ResponseStatus
 from httpy_client import http_client
 from httpy_client.requests import HttpRequestDispatch
 from funlib.retry import RetryOnErrors
-from keepon.attempts import on_incomplete_read, join
+from .attempt import on_incomplete_read, join
 
 
 class RetryRequests(HttpRequestDispatch):
