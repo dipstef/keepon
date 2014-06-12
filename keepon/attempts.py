@@ -1,10 +1,8 @@
 from funlib.retry.retries import AttemptTimes
-from funlib.retry.sleep import sleep, increment_sleep
 from procol.console import print_err
 
-from connected.error import ConnectionTimeout, NoConnection, UnresolvableHost, ConnectionRefused
-from httpy.error import HttpOperationTimeout, HttpResponseError
-from httpy_client.error import HttpServerError, IncompleteRead
+from connected.error import ConnectionTimeout
+from httpy.error import HttpOperationTimeout
 
 
 class RequestAttempt(AttemptTimes):
@@ -32,27 +30,8 @@ class RequestAttempt(AttemptTimes):
             print_err(error_msg)
 
 
-def _on(errors, sleep=None, retry=None, msg=None):
+def on(errors, sleep=None, retry=None, msg=None):
     return errors, RequestAttempt(retry, msg, sleep)
 
 
-def _attempts(*handlers):
-    return tuple(_on(*handler) for handler in handlers)
-
 Timeouts = (HttpOperationTimeout, ConnectionTimeout)
-
-resolvable = (
-    _on(NoConnection, sleep(1), msg='No Internet connection when resolving {url}'),
-    _on(UnresolvableHost, sleep(1), retry=10, msg='Host is unresolvable but internet seem to be up {url}: {error} '),
-)
-
-
-up_and_running = (
-    _on(NoConnection, sleep(1), msg='No Internet connection when resolving {url}'),
-    _on(UnresolvableHost, sleep(1), retry=10, msg='Host is unresolvable but internet seem to be up {url}: {error} '),
-    _on(Timeouts, increment_sleep(1, to=10), msg='Operation timeout: {error} when contacting: {url}'),
-    _on(ConnectionRefused, increment_sleep(1, to=10), msg='Connection refused: {url}'),
-    _on(HttpResponseError, sleep(2), retry=10, msg='Server Response error: {error} on {url}'),
-    _on(HttpServerError, increment_sleep(10, to=30), retry=10, msg='Server connection error: {error} on {url}'),
-    _on(IncompleteRead, sleep(2), msg='Incomplete response read: {url}')
-)
