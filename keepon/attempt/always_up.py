@@ -6,8 +6,8 @@ from .up_and_running import up_and_running
 from ..requests import RetryRequests
 
 
-always_up = tuple(up_and_running)
-always_up[1] = on_unresolvable_host(sleep(1), retry=10),
+always_up = list(up_and_running)
+always_up[1] = on_unresolvable_host(sleep(1), retry=10)
 
 
 requests = RetryRequests(up_and_running)
