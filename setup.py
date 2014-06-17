@@ -12,7 +12,7 @@ setup(name=name,
       author_email='dipstef@github.com',
       url='http://github.com/dipstef/{}/'.format(name),
       description=desc,
-      packages=[name],
+      packages=['keepon', 'keepon.attempt'],
       requires=['funlib', 'httpy', 'httpy_client'],
       platforms=['Any']
 )
