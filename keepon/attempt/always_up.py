@@ -1,6 +1,6 @@
 from funlib.retry.sleep import sleep
 
-from httpy_client import HttpClient
+from httpy.client import HttpClient
 from . import on_unresolvable_host
 from .up_and_running import up_and_running
 from ..requests import RetryRequests

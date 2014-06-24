@@ -1,10 +1,10 @@
-from funlib.retry.errors import ErrorsHandler
+from catches import ErrorsHandler
 from funlib.retry.retries import AttemptTimes
-from httpy_client.error import HttpServerError, IncompleteRead
+from httpy.requests.error import HttpServerError, IncompleteRead
 from procol.console import print_err
 
-from connected.error import ConnectionTimeout, NoConnection, UnresolvableHost, ConnectionRefused
-from httpy.error import HttpOperationTimeout, HttpResponseError
+from httpy.connection.error import ConnectionTimeout, NoConnection, UnresolvableHost, ConnectionRefused
+from httpy.http.error import HttpOperationTimeout, HttpResponseError
 
 
 class RequestAttempt(AttemptTimes):

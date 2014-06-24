@@ -13,6 +13,6 @@ setup(name=name,
       url='http://github.com/dipstef/{}/'.format(name),
       description=desc,
       packages=['keepon', 'keepon.attempt'],
-      requires=['funlib', 'httpy', 'httpy_client'],
+      requires=['funlib', 'httpy'],
       platforms=['Any']
 )

@@ -1,9 +1,9 @@
 from funlib.retry.sleep import sleep
-from httpy.response import ResponseStatus
-from httpy_client.requests import HttpRequestDispatch
+from httpy.http.response import ResponseStatus
+from httpy.requests import HttpRequestDispatch
 
 from funlib.retry import RetryOnErrors
-from httpy_client.urrlib import requests
+from httpy.client import requests
 
 from .attempt import on_incomplete_read, join
 
