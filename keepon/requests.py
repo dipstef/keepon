@@ -30,11 +30,10 @@ class ResponseReplay(ResponseStatus):
         self._response = response
 
     def read(self):
-        return self._read()
+        return self._response.read()
 
-    def replay(self):
-        response = self._replay(self.request)
-        return ResponseReplay(response, self._replay)
+    def _redo_request(self):
+        self._response = self._replay(self.request)
 
     def __getattr__(self, item):
         return getattr(self._response, item)
@@ -45,14 +44,11 @@ class ResponseReadRetry(ResponseReplay):
     def __init__(self, response, redo_request, attempts):
         super(ResponseReadRetry, self).__init__(response, redo_request)
         self._response = response
-        self._read = RetryOnErrors(self._read_body, join(attempts, on_incomplete_read(sleep(2))))
-
-    def read(self):
-        return self._read()
+        self.read = RetryOnErrors(self._read_body, join(attempts, on_incomplete_read(sleep(2))))
 
     def _read_body(self):
         try:
             return self._response.read()
         except:
-            self._response = self._response.replay()
+            self._redo_request()
             raise
