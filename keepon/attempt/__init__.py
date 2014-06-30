@@ -1,10 +1,10 @@
 from catches import ErrorsHandler
 from funlib.retry.retries import AttemptTimes
-from httpy.requests.error import HttpServerError, IncompleteRead
+from httpy.error import HttpServerError, IncompleteRead
 from procol.console import print_err
 
-from httpy.connection.error import ConnectionTimeout, NoConnection, UnresolvableHost, ConnectionRefused
-from httpy.http.error import HttpOperationTimeout, HttpResponseError
+from httpy.connection.error import ConnectionTimeout, NotConnected, UnresolvableHost, ConnectionRefused
+from httpy.error import HttpOperationTimeout, HttpResponseError
 
 
 class RequestAttempt(AttemptTimes):
@@ -40,7 +40,7 @@ Timeouts = (HttpOperationTimeout, ConnectionTimeout)
 
 
 def on_no_connection(sleep=None, retry=None):
-    return on(NoConnection, sleep, retry, msg='No Internet connection when resolving {url}')
+    return on(NotConnected, sleep, retry, msg='No Internet connection when resolving {url}')
 
 
 def on_unresolvable_host(sleep=None, retry=None):

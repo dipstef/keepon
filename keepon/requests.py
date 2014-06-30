@@ -1,9 +1,9 @@
 from funlib.retry.sleep import sleep
-from httpy.http.response import ResponseStatus
-from httpy.requests import HttpRequestDispatch
+from httpy import ResponseStatus
+from httpy.client.requests import HttpRequestDispatch
 
 from funlib.retry import RetryOnErrors
-from httpy.client import requests
+from httpy import requests
 
 from .attempt import on_incomplete_read, join
 
@@ -13,9 +13,9 @@ class RetryRequests(HttpRequestDispatch):
         super(RetryRequests, self).__init__(client)
 
         self._attempts = attempts
-        self._retry_execute = RetryOnErrors(super(RetryRequests, self)._execute, attempts)
+        self._retry_execute = RetryOnErrors(super(RetryRequests, self).execute, attempts)
 
-    def _execute(self, request, **kwargs):
+    def execute(self, request, **kwargs):
         response = self._retry_execute(request, **kwargs)
 
         return ResponseReadRetry(response, redo_request=self._execute, attempts=self._attempts)

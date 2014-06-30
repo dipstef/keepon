@@ -1,5 +1,5 @@
 from funlib.retry.sleep import sleep
-from httpy.client import HttpClient
+from httpy import HttpClient
 
 from . import on_no_connection, on_unresolvable_host
 from ..requests import RetryRequests
