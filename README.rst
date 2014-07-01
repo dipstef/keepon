@@ -26,11 +26,10 @@ Same interface as ``requests``.
 
     #assuming you are disconnected
     >>> client.get('http://www.google.com')
-
-        No Internet connection when resolving http://www.google.com, waiting 1 seconds
+     '''No Internet connection when resolving http://www.google.com, waiting 1 seconds
         No Internet connection when resolving http://www.google.com, attempted 2 times, waiting 1 seconds
         No Internet connection when resolving http://www.google.com, attempted 3 times, waiting 1 seconds
-        No Internet connection when resolving http://www.google.com, attempted 4 times, waiting 1 seconds
+        No Internet connection when resolving http://www.google.com, attempted 4 times, waiting 1 seconds'''
 
 Setting a maximum number of retries
 
@@ -38,15 +37,12 @@ Setting a maximum number of retries
 
     >>> client = Keepon(on_no_connection(sleep=sleep(1), retry=10))
     >>> client.get('http://www.google.com')
-        No Internet connection when resolving http://www.google.com, waiting 1 seconds
+     '''No Internet connection when resolving http://www.google.com, waiting 1 seconds
         ....
         No Internet connection when resolving http://www.google.com, attempted 8 times, waiting 1 seconds
         No Internet connection when resolving http://www.google.com, attempted 9 times, waiting 1 seconds
-        No Internet connection when resolving http://www.google.com, attempted 10 times, waiting 1 seconds
-        Traceback (most recent call last):
-        File "..keepon/examples.py", line 6, in <module>
-            client.get('http://www.google.com')
-            ....
+        No Internet connection when resolving http://www.google.com, attempted 10 times, waiting 1 seconds'''
+
         httpy.error.NotConnected('[Errno GET: http://www.google.com]')
 
 Increment sleeping time on each attempt
@@ -59,11 +55,10 @@ Increment sleeping time on each attempt
                          on_timeouts(incremental_sleep(1, to=10)))
 
      >>> client.get('http://www.twitter.com')
-
-        Operation timeout: ('HTTP Error 502: SiteOverloaded') when contacting: http://twitter.com, waiting 1 seconds
+     '''Operation timeout: ('HTTP Error 502: SiteOverloaded') when contacting: http://twitter.com, waiting 1 seconds
         Operation timeout: ('HTTP Error 502: SiteOverloaded') when contacting: http://twitter.com, attempted 2 times, waiting 2 seconds
         Operation timeout: ('HTTP Error 502: SiteOverloaded') when contacting: http://twitter.com, attempted 3 times, waiting 3 seconds
-        Operation timeout: ('HTTP Error 502: SiteOverloaded') when contacting: http://twitter.com, attempted 4 times, waiting 4 seconds
+        Operation timeout: ('HTTP Error 502: SiteOverloaded') when contacting: http://twitter.com, attempted 4 times, waiting 4 seconds'''
 
 
 Attempts
