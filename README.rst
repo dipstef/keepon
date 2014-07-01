@@ -122,6 +122,6 @@ See the ``catches`` documentation for how to build custom error handlers:
     from keepon import attempt
     from httpy.error import ConnectionResetByPeer, IncompleteRead
 
-    handler = attempt.on(ConnectionResetByPeer, sleep=sleep(10), retry=2, msg='Connection reset when contacting {url}'
+    handler = attempt.on(ConnectionResetByPeer, sleep(10), retry=2, msg='Connection reset when contacting {url}'
 
-    handler = attempt.on((ConnectionResetByPeer, IncompleteRead), sleep=sleep(10), retry=2, msg='Better give up on {url}'
+    handler = attempt.on((ConnectionResetByPeer, IncompleteRead), sleep(10), retry=2, msg='Better give up on {url}'
