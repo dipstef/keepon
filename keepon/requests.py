@@ -15,7 +15,7 @@ class RetryRequests(HttpRequestDispatch):
     def execute(self, request, **kwargs):
         response = self._retry_execute(request, **kwargs)
 
-        return ResponseReadRetry(response, redo_request=self._execute, attempts=self._attempts)
+        return ResponseReadRetry(response, redo_request=self.execute, attempts=self._attempts)
 
 
 class ResponseReplay(ResponseStatus):
