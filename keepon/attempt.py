@@ -1,10 +1,9 @@
 from catches import ErrorsHandler
 from funlib.retry.retries import AttemptTimes
-from httpy.error import HttpServerError, IncompleteRead
 from procol.console import print_err
 
 from httpy.connection.error import ConnectionTimeout, NotConnected, UnresolvableHost, ConnectionRefused
-from httpy.error import HttpOperationTimeout, HttpResponseError
+from httpy.error import HttpOperationTimeout, HttpResponseError, HttpServerError, IncompleteRead, InternalServerError
 
 
 class RequestAttempt(AttemptTimes):
@@ -61,6 +60,10 @@ def on_response_error(sleep=None, retry=None):
 
 def on_server_error(sleep=None, retry=None):
     return on(HttpServerError, sleep, retry, msg='Server connection error: {error} on {url}')
+
+
+def on_internal_server_error(sleep=None, retry=None):
+    return on(InternalServerError, sleep, retry, msg='Internal server error: {error} on {url}')
 
 
 def on_incomplete_read(sleep=None, retry=None):

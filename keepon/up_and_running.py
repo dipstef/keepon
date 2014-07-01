@@ -1,9 +1,9 @@
 from funlib.retry.sleep import sleep, incremental_sleep
 from httpy import HttpClient
 
-from . import on_no_connection, on_unresolvable_host, on_timeouts, on_connection_refused, on_response_error, \
+from .attempt import on_no_connection, on_unresolvable_host, on_timeouts, on_connection_refused, on_response_error, \
     on_server_error
-from ..requests import RetryRequests
+from .requests import RetryRequests
 
 
 up_and_running = (
