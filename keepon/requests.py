@@ -26,8 +26,8 @@ class ResponseReplay(ResponseStatus):
         self._replay = redo_request
         self._response = response
 
-    def read(self):
-        return self._response.read()
+    def read(self, *args, **kwargs):
+        return self._response.read(*args, **kwargs)
 
     def _redo_request(self):
         self._response = self._replay(self.request)
@@ -43,9 +43,9 @@ class ResponseReadRetry(ResponseReplay):
         self._response = response
         self.read = RetryOnErrors(self._read_body, join(attempts, on_incomplete_read(sleep(2))))
 
-    def _read_body(self):
+    def _read_body(self, *args, **kwargs):
         try:
-            return self._response.read()
+            return self._response.read(*args, **kwargs)
         except:
             self._redo_request()
             raise
