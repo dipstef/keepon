@@ -4,6 +4,7 @@ from procol.console import print_err
 
 from httpy.connection.error import ConnectionTimeout, NotConnected, UnresolvableHost, ConnectionRefused
 from httpy.error import HttpOperationTimeout, HttpResponseError, HttpServerError, IncompleteRead, InternalServerError
+from unicoder import encoded
 
 
 class RequestAttempt(AttemptTimes):
@@ -18,7 +19,7 @@ class RequestAttempt(AttemptTimes):
         #error, request = attempt.error, attempt.call.args[1]
         error, request = attempt.error, attempt.error.request
 
-        error_msg = self.msg.format(error=error, error_class=error.__class__, url=request.url)
+        error_msg = self.msg.format(error=error, error_class=error.__class__, url=encoded(request.url))
         if attempt.number > 1:
             error_msg += ', attempted %d times' % attempt.number
 
