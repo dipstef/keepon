@@ -8,7 +8,6 @@ from unicoder import encoded
 
 
 class RequestAttempt(AttemptTimes):
-
     def __init__(self, times=None, msg=None, sleep_fun=None):
         super(RequestAttempt, self).__init__(times, self._print_error)
         self.sleep = sleep_fun
@@ -16,7 +15,7 @@ class RequestAttempt(AttemptTimes):
         self.msg = msg or 'Error {error} executing {url}'
 
     def _print_error(self, attempt):
-        #error, request = attempt.error, attempt.call.args[1]
+        # error, request = attempt.error, attempt.call.args[1]
         error, request = attempt.error, attempt.error.request
 
         error_msg = self.msg.format(error=error, error_class=error.__class__, url=encoded(request.url))
